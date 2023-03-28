@@ -2,23 +2,24 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import "./login.css"
 
-const onFinish = (values) => {
-  console.log('Received values of form: ', values);
-};
+const Login = () => {
+  const onFinish = (values) => {
+    console.log('Received values of form: ', values);
+  };
 
-function Login() {
-  return (
+  return(
       <Form name="normal_login"
             className="login-form container-fluid position-absolute top-50 start-50 translate-middle"
             onFinish={onFinish}
       >
-        <h1>Log in</h1> <br/>
+        <h1>Log in</h1>
+        <br/>
 
         <Form.Item  name="username"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your Username!',
+                        message: 'Please input your username!',
                       },
                     ]}
         >
@@ -29,7 +30,7 @@ function Login() {
                    rules={[
                      {
                        required: true,
-                       message: 'Please input your Password!',
+                       message: 'Please input your password!',
                      },
                    ]}
         >
@@ -44,10 +45,10 @@ function Login() {
             Log in
           </Button>
 
-          <a className="login-form-register" href="">Sign up</a>
+          <a className="login-form-register" href="/register">Sign up</a>
         </Form.Item>
       </Form>
-  );
+  )
 }
 
 export default Login
