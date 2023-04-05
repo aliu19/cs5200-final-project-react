@@ -1,16 +1,13 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import "./login.css"
+import {login} from "../../services/services";
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
-
   return(
       <Form name="normal_login"
             className="login-form container-fluid position-absolute top-50 start-50 translate-middle"
-            onFinish={onFinish}
+            onFinish={login}
       >
         <h1>Log in</h1>
         <br/>

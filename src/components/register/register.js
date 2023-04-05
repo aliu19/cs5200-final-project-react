@@ -1,16 +1,12 @@
 import { AutoComplete, Button, Cascader, Checkbox, Col, Form, Input, InputNumber, Row, Select} from 'antd';
+import {register} from "../../services/services";
 
 const Register = () => {
-  // TODO: error message if cannot create user, otherwise success message
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
-
   return(
       <Form
           name="register"
           className="container-fluid position-absolute top-50 start-50 translate-middle"
-          onFinish={onFinish}
+          onFinish={register}
           style={{
             maxWidth: 600,
           }}
