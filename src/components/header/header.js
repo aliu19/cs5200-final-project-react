@@ -7,7 +7,7 @@ const Header = (props) => {
 
   return(
       <header style={{"padding-top": "10px"}}>
-        <Button type="primary" onClick={headerLogout} style={{float: 'right'}}>
+        <Button href="/" type="primary" onClick={headerLogout} style={{float: 'right'}}>
           Logout
         </Button>
         <a href="/" style={{"font-size": 24, "text-decoration": "none"}}>Trip Planner!</a>

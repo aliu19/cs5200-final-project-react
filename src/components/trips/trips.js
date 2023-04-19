@@ -16,12 +16,11 @@ const Trips = (props) => {
   return(
       <div>
         <h1>{props.currentUser.username}'s Trips:</h1>
-        <Button shape="round" type="primary" size="large" style={{position: "absolute", right: 15, bottom: 15}}>Add Trip</Button>
+        <Button href="/new-trip" shape="round" type="primary" size="large" style={{position: "absolute", right: 15, bottom: 15}}>Create Trip</Button>
         <Space direction="vertical" style={{ display: 'flex' }}>
           {
             trips.length ? trips.map(trip => <TripCard trip={trip}></TripCard>) : <>Error</>
           }
-          {/*<TripCard trip={{trip_name: "Name asjdnqw", description: "Description asndijqndo2wqd"}}></TripCard>*/}
         </Space>
 
       </div>

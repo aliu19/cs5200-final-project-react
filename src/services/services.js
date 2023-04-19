@@ -1,7 +1,6 @@
 const API = "http://127.0.0.1:8000"
 
-export const register = (user) => {
-  console.log('Received values of form: ', user)
+export const register = (user) =>
   fetch(`${API}/register`, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -9,7 +8,6 @@ export const register = (user) => {
       'content-type': 'application/json'
     }
   }).then(response => response.json())
-}
 
 export const login = (credentials, setToken) =>
     fetch(`${API}/login`, {
@@ -67,6 +65,35 @@ export const get_trips = (token, username) =>
     fetch(`${API}/user/${username}/trips`, {
       method: "GET",
       headers: {
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
+
+export const create_trip = (token, tripInfo) =>
+    fetch(`${API}/trip`, {
+      method: 'POST',
+      body: JSON.stringify(tripInfo),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
+
+export const get_trip = (token, tripId) =>
+    fetch(`${API}/trip/${tripId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
+
+export const update_trip = (token, tripId, tripInfo) =>
+    fetch(`${API}/trip/${tripId}`, {
+      method: 'PUT',
+      body: JSON.stringify(tripInfo),
+      headers: {
+        'content-type': 'application/json',
         Authorization: "Bearer " + token
       }
     }).then(response => response.json())

@@ -1,12 +1,18 @@
-import { AutoComplete, Button, Cascader, Checkbox, Col, Form, Input, InputNumber, Row, Select} from 'antd';
+import { Button, Form, Input, message} from 'antd';
 import {register} from "../../services/services";
 
 const Register = () => {
+  const onFinish = (user) => {
+    register(user).then((msg) => {
+      message.info(msg.message)
+    })
+  }
+
   return(
       <Form
           name="register"
           className="container-fluid position-absolute top-50 start-50 translate-middle"
-          onFinish={register}
+          onFinish={onFinish}
           style={{
             maxWidth: 600,
           }}
@@ -117,6 +123,8 @@ const Register = () => {
           <Button type="primary" htmlType="submit">
             Register
           </Button>
+
+          <a href="/" style={{float: "right", "text-decoration": "none"}}>Log In</a>
         </Form.Item>
       </Form>
   )

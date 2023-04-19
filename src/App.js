@@ -9,6 +9,8 @@ import Profile from "./components/profile/profile";
 import Trips from "./components/trips/trips";
 import {useEffect, useState} from "react";
 import {profile} from "./services/services";
+import NewTrip from "./components/trip/new-trip";
+import Trip from "./components/trip/trip";
 
 function App() {
   const { token, removeToken, setToken } = useToken();
@@ -26,7 +28,7 @@ function App() {
         email: data.email
       })
     })
-  }, [])
+  }, [token])
 
   // no token
   const router0 = createBrowserRouter([
@@ -53,13 +55,23 @@ function App() {
       path: "/",
       element: <Trips currentUser={currentUser} token={token}/>,
       errorElement: <ErrorPage/>
+    },
+    {
+      path: "/new-trip",
+      element: <NewTrip currentUser={currentUser} token={token}/>,
+      errorElement:  <ErrorPage/>
+    },
+    {
+      path: "/trip/:tripId",
+      element: <Trip token={token}/>,
+      errorElement:  <ErrorPage/>
     }
   ]);
 
   return (
       <div>
         {
-          !token && token!=="" &&token!== undefined ?
+          !token && token!=="" || token === undefined ?
               <RouterProvider router={router0}/>
               :
               <div className="container-fluid">
