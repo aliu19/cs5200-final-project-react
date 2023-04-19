@@ -3,11 +3,14 @@ import {Button, Form, Input} from 'antd';
 import "./login.css"
 import {login} from "../../services/services";
 
-const Login = () => {
+const Login = (props) => {
+  const onFinish = (credentials) =>
+      login(credentials, props.setToken)
+
   return(
       <Form name="normal_login"
             className="login-form container-fluid position-absolute top-50 start-50 translate-middle"
-            onFinish={login}
+            onFinish={onFinish}
       >
         <h1>Log in</h1>
         <br/>
