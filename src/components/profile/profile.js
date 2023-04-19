@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {update_profile} from "../../services/services";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, message} from "antd";
 
 const Profile = (props) => {
   const [form] = Form.useForm()
@@ -16,7 +16,9 @@ const Profile = (props) => {
   }, [props.currentUser])
 
   const onFinish = (user) =>
-      update_profile(props.token, user)
+      update_profile(props.token, user).then((msg) => {
+        message.info(msg.message)
+      })
 
   return(
       <Form
