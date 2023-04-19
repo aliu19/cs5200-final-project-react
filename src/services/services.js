@@ -97,3 +97,12 @@ export const update_trip = (token, tripId, tripInfo) =>
         Authorization: "Bearer " + token
       }
     }).then(response => response.json())
+
+export const delete_trip = (token, tripId) =>
+    fetch(`${API}/trip/${tripId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())

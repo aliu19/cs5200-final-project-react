@@ -1,6 +1,6 @@
 import {Button, DatePicker, Form, Input, message} from "antd";
 import {useEffect, useState} from "react";
-import {get_trip, update_trip} from "../../services/services";
+import {delete_trip, get_trip, update_trip} from "../../services/services";
 import {useParams} from "react-router-dom";
 import moment from "moment";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -39,6 +39,11 @@ const Trip = (props) => {
         "end_date": trip_info.end_date.format("YYYY-MM-DD"),
         "attendees": trip_info.attendees.map(a => a.attendee)
       }).then((msg) => {
+        message.info(msg.message)
+      })
+
+  const deleteTrip = () =>
+      delete_trip(props.token, tripId).then((msg) => {
         message.info(msg.message)
       })
 
@@ -217,6 +222,8 @@ const Trip = (props) => {
           <Button type="primary" htmlType="submit">
             Update Trip
           </Button>
+
+          <Button onClick={deleteTrip} style={{float: "right", "text-decoration": "none"}}>Delete Trip</Button>
         </Form.Item>
       </Form>
   )

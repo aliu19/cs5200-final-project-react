@@ -49,7 +49,6 @@ const Register = () => {
           <Input />
         </Form.Item>
 
-        {/*TODO check that username and email do not exist in db*/}
         <Form.Item
             name="username"
             label="Username"
