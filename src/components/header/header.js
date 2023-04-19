@@ -2,12 +2,15 @@ import {Button} from 'antd';
 import {logout} from "../../services/services";
 
 const Header = (props) => {
-  const headerLogout = () =>
-      logout(props.token)
+  const headerLogout = () => {
+    logout(props.token).then(r =>
+        window.location = "/"
+    )
+  }
 
   return(
       <header style={{"padding-top": "10px"}}>
-        <Button href="/" type="primary" onClick={headerLogout} style={{float: 'right'}}>
+        <Button type="primary" onClick={headerLogout} style={{float: 'right'}}>
           Logout
         </Button>
         <a href="/" style={{"font-size": 24, "text-decoration": "none"}}>Trip Planner!</a>
