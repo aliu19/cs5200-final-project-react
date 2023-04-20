@@ -8,6 +8,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 const Trip = (props) => {
   const [form] = Form.useForm()
   const [currentTrip, setCurrentTrip] = useState({})
+  const [isOwner, setIsOwner] = useState(false)
   const {tripId} = useParams()
 
   useEffect(() => {
@@ -27,6 +28,10 @@ const Trip = (props) => {
 
   useEffect(() => {
     form.setFieldsValue(currentTrip)
+
+    if (props.currentUser.username === currentTrip.trip_owner) {
+      setIsOwner(true)
+    }
   }, [currentTrip])
 
   const onFinish = (trip_info) =>
@@ -45,6 +50,7 @@ const Trip = (props) => {
   const deleteTrip = () =>
       delete_trip(props.token, tripId).then((msg) => {
         message.info(msg.message)
+        window.location = "/"
       })
 
   return(
@@ -59,6 +65,7 @@ const Trip = (props) => {
             "justify-content": "center"
           }}
           scrollToFirstError
+          disabled={!isOwner}
       >
         <h1>{currentTrip.trip_name}</h1>
         <br/>
@@ -158,11 +165,6 @@ const Trip = (props) => {
 
         <Form.List
             name="attendees"
-            rules={[
-              {
-                required: true
-              },
-            ]}
         >
           {(fields, { add, remove }, { errors }) => (
               <>
@@ -193,7 +195,7 @@ const Trip = (props) => {
                             name={[field.name, 'id']}
                         />
                       </Form.Item>
-                      {fields.length > 0 ? (
+                      {fields.length > 0 && isOwner ? (
                           <MinusCircleOutlined
                               className="dynamic-delete-button"
                               onClick={() => remove(field.name)}
@@ -218,13 +220,18 @@ const Trip = (props) => {
           )}
         </Form.List>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Update Trip
-          </Button>
+        {
+          isOwner ?
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Update Trip
+                </Button>
 
-          <Button onClick={deleteTrip} style={{float: "right", "text-decoration": "none"}}>Delete Trip</Button>
-        </Form.Item>
+                <Button onClick={deleteTrip} style={{float: "right", "text-decoration": "none"}}>Delete Trip</Button>
+              </Form.Item>
+              :
+              <></>
+        }
       </Form>
   )
 }

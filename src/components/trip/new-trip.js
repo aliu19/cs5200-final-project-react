@@ -1,4 +1,4 @@
-import {Button, DatePicker, Form, Input} from "antd";
+import {Button, DatePicker, Form, Input, message} from "antd";
 import {create_trip} from "../../services/services";
 
 const NewTrip = (props) => {
@@ -11,6 +11,9 @@ const NewTrip = (props) => {
         "start_date": trip_info.start_date.format("YYYY-MM-DD"),
         "end_date": trip_info.end_date.format("YYYY-MM-DD"),
         "trip_owner": props.currentUser.username,
+      }).then((msg) => {
+        message.info(msg.message)
+        window.location = "/"
       })
 
   return(
@@ -117,7 +120,6 @@ const NewTrip = (props) => {
         </Form.Item>
 
         <Form.Item>
-          {/*TODO  href="/"*/}
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

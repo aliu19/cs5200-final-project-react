@@ -11,6 +11,8 @@ import {useEffect, useState} from "react";
 import {profile} from "./services/services";
 import NewTrip from "./components/trip/new-trip";
 import Trip from "./components/trip/trip";
+import ExpenseList from "./components/expenses/expense-list";
+import NewExpense from "./components/expenses/new-expense";
 
 function App() {
   const { token, removeToken, setToken } = useToken();
@@ -63,7 +65,17 @@ function App() {
     },
     {
       path: "/trip/:tripId",
-      element: <Trip token={token}/>,
+      element: <Trip currentUser={currentUser} token={token}/>,
+      errorElement:  <ErrorPage/>
+    },
+    {
+      path: "/trip/:tripId/expenses",
+      element:<ExpenseList token={token}/>,
+      errorElement:  <ErrorPage/>
+    },
+    {
+      path: "/trip/:tripId/new-expense",
+      element:<NewExpense token={token}/>,
       errorElement:  <ErrorPage/>
     }
   ]);

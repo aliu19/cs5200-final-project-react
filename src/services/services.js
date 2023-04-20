@@ -106,3 +106,29 @@ export const delete_trip = (token, tripId) =>
         Authorization: "Bearer " + token
       }
     }).then(response => response.json())
+
+export const get_expenses = (token, tripId) =>
+    fetch(`${API}/trip/${tripId}/expenses`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
+
+export const delete_expense = (token, expenseId) =>
+    fetch(`${API}/expense/${expenseId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
+
+export const createExpense = (token, expenseInfo) =>
+    fetch(`${API}/expense`, {
+      method: 'POST',
+      body: JSON.stringify(expenseInfo),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())
