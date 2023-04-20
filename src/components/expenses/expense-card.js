@@ -31,11 +31,16 @@ const ExpenseCard = (props) => {
                     <><span onClick={payExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Pay</span> &nbsp;</> :
                     <></>
                 }
-                <span onClick={deleteExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Delete</span>
+                {
+                  props.expense.expense_owner === props.username ?
+                      <span onClick={deleteExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Delete</span> :
+                      <></>
+                }
               </>
             }>
         <p>Total Cost: ${props.expense.total_cost}</p>
         <p>Amount Owed: ${props.expense.amount_owed}</p>
+        <p>Pay to: {props.expense.expense_owner}</p>
         {
           props.expense.accomodation ?
               <>
