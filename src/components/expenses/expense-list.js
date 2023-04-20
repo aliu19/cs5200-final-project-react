@@ -24,7 +24,7 @@ const ExpenseList = (props) => {
         <Button href={"/trip/" + tripId + "/new-expense"} shape="round" type="primary" size="large" style={{position: "absolute", right: 15, bottom: 15}}>Create Expense</Button>
         <Space direction="vertical" style={{ display: 'flex' }}>
           {
-            expenses.length ? expenses.map(expense => <ExpenseCard token={props.token} expense={expense}></ExpenseCard>) : <></>
+            expenses.length ? expenses.map(expense => <ExpenseCard token={props.token} expense={expense} username={props.currentUser.username} tripId={tripId} setExpenses={setExpenses}></ExpenseCard>) : <></>
           }
         </Space>
       </div>

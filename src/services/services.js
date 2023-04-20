@@ -132,3 +132,15 @@ export const createExpense = (token, expenseInfo) =>
         Authorization: "Bearer " + token
       }
     }).then(response => response.json())
+
+export const updateExpense = (token, expenseId, username) =>
+    fetch(`${API}/expense/${expenseId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        "username": username
+      }),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: "Bearer " + token
+      }
+    }).then(response => response.json())

@@ -70,7 +70,7 @@ function App() {
     },
     {
       path: "/trip/:tripId/expenses",
-      element:<ExpenseList token={token}/>,
+      element:<ExpenseList currentUser={currentUser} token={token}/>,
       errorElement:  <ErrorPage/>
     },
     {

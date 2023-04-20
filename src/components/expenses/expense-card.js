@@ -1,6 +1,6 @@
 import Card from "antd/es/card/Card";
 import {message} from "antd";
-import {delete_expense} from "../../services/services";
+import {delete_expense, get_expenses, updateExpense} from "../../services/services";
 
 const ExpenseCard = (props) => {
   const deleteExpense = () =>
@@ -8,9 +8,34 @@ const ExpenseCard = (props) => {
         message.info(msg.message)
       })
 
+  const payExpense = () => {
+    updateExpense(props.token, props.expense.expense_id, props.username).then(() => {
+      get_expenses(props.token, props.tripId).then((expenses) => {
+        props.setExpenses(expenses)
+      })
+    })
+  }
+
   return(
-      <Card title={props.expense.expense_name} extra={<div onClick={deleteExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Delete</div>}>
+      <Card title={
+        <>{props.expense.expense_name} &nbsp;
+          {
+            props.expense.transaction_completed === 1 ?
+                <span style={{color: "green"}}>Paid</span> :
+                <span style={{color: "red"}}>Unpaid</span>
+          }
+          </>}
+            extra={
+              <>
+                {props.expense.transaction_completed === 0 ?
+                    <><span onClick={payExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Pay</span> &nbsp;</> :
+                    <></>
+                }
+                <span onClick={deleteExpense} style={{color: "var(--bs-link-color)", "text-decoration": "underline"}}>Delete</span>
+              </>
+            }>
         <p>Total Cost: ${props.expense.total_cost}</p>
+        <p>Amount Owed: ${props.expense.amount_owed}</p>
         {
           props.expense.accomodation ?
               <>
