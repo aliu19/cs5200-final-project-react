@@ -73,7 +73,7 @@ const Profile = (props) => {
               },
             ]}
         >
-          <Input />
+          <Input disabled={true}/>
         </Form.Item>
 
         <Form.Item
@@ -90,7 +90,7 @@ const Profile = (props) => {
               },
             ]}
         >
-          <Input />
+          <Input disabled={true}/>
         </Form.Item>
 
 

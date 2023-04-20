@@ -11,19 +11,22 @@ const Trip = (props) => {
   const [isOwner, setIsOwner] = useState(false)
   const {tripId} = useParams()
 
-  useEffect(() => {
-    get_trip(props.token, tripId).then((tripInfo) => {
-      setCurrentTrip({
-        trip_name: tripInfo.trip_name,
-        description: tripInfo.description,
-        city: tripInfo.city,
-        country: tripInfo.country,
-        start_date: moment(tripInfo.start_date),
-        end_date: moment(tripInfo.end_date),
-        trip_owner: tripInfo.trip_owner,
-        attendees: tripInfo.attendees
+  const getTrip = () =>
+      get_trip(props.token, tripId).then((tripInfo) => {
+        setCurrentTrip({
+          trip_name: tripInfo.trip_name,
+          description: tripInfo.description,
+          city: tripInfo.city,
+          country: tripInfo.country,
+          start_date: moment(tripInfo.start_date),
+          end_date: moment(tripInfo.end_date),
+          trip_owner: tripInfo.trip_owner,
+          attendees: tripInfo.attendees
+        })
       })
-    })
+
+  useEffect(() => {
+    getTrip()
   }, [])
 
   useEffect(() => {
@@ -34,19 +37,32 @@ const Trip = (props) => {
     }
   }, [currentTrip])
 
-  const onFinish = (trip_info) =>
-      update_trip(props.token, tripId, {
-        "trip_name": trip_info.trip_name,
-        "description": trip_info.description,
-        "city": trip_info.city,
-        "country": trip_info.country,
-        "start_date": trip_info.start_date.format("YYYY-MM-DD"),
-        "end_date": trip_info.end_date.format("YYYY-MM-DD"),
-        "attendees": trip_info.attendees.map(a => a.attendee)
-      }).then((msg) => {
-        message.info(msg.message)
-      })
+  const onFinish = (trip_info) => {
+    let trip_name = currentTrip.trip_name !== trip_info.trip_name ? trip_info.trip_name : null
+    let description = currentTrip.description !== trip_info.description ? trip_info.description : null
+    let city = currentTrip.city !== trip_info.city ? trip_info.city : null
+    let country = currentTrip.country !== trip_info.country ? trip_info.country : null
+    let start_date = currentTrip.start_date.format("YYYY-MM-DD") !== trip_info.start_date.format("YYYY-MM-DD") ? trip_info.city.format("YYYY-MM-DD") : null
+    let end_date = currentTrip.end_date.format("YYYY-MM-DD") !== trip_info.end_date.format("YYYY-MM-DD") ? trip_info.end_date.format("YYYY-MM-DD") : null
+    let attendees = JSON.stringify(currentTrip.attendees) !== JSON.stringify(trip_info.attendees) ? trip_info.attendees : null
 
+    let original = {
+      "trip_name": trip_name,
+      "description": description,
+      "city": city,
+      "country": country,
+      "start_date": start_date,
+      "end_date": end_date,
+      "attendees": attendees.map(a => a.attendee),
+    }
+
+    let changes = Object.fromEntries(Object.entries(original).filter(([_, v]) => v != null))
+
+    update_trip(props.token, tripId, changes).then((msg) => {
+      message.info(msg.message)
+      getTrip()
+    })
+  }
   const deleteTrip = () =>
       delete_trip(props.token, tripId).then((msg) => {
         message.info(msg.message)
