@@ -53,15 +53,17 @@ const Trip = (props) => {
       "country": country,
       "start_date": start_date,
       "end_date": end_date,
-      "attendees": attendees.map(a => a.attendee),
+      "attendees": attendees === null ? null : attendees.map(a => a.attendee),
     }
 
     let changes = Object.fromEntries(Object.entries(original).filter(([_, v]) => v != null))
 
-    update_trip(props.token, tripId, changes).then((msg) => {
-      message.info(msg.message)
-      getTrip()
-    })
+    if (Object.keys(changes).length !== 0) {
+      update_trip(props.token, tripId, changes).then((msg) => {
+        message.info(msg.message)
+        getTrip()
+      })
+    }
   }
   const deleteTrip = () =>
       delete_trip(props.token, tripId).then((msg) => {
