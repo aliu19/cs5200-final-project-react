@@ -3,8 +3,8 @@ import {register} from "../../services/services";
 
 const Register = () => {
   const onFinish = (user) => {
-    register(user).then((msg) => {
-      message.info(msg.message)
+    register(user).then((r) => {
+      message.info(r.msg)
     })
   }
 
