@@ -9,7 +9,7 @@ export const register = (user) =>
     }
   }).then(response => response.json())
 
-export const login = (credentials, setToken) =>
+export const login = (credentials, setToken, setCurrentUser) =>
     fetch(`${API}/login`, {
       method: 'POST',
       body: JSON.stringify(credentials),
@@ -17,9 +17,18 @@ export const login = (credentials, setToken) =>
         'content-type': 'application/json'
       }
     }).then((response) => {
-      response.json().then((data) =>
+      response.json().then((data) => {
+        if (data.access_token) {
           setToken(data.access_token)
-      )
+          setCurrentUser({
+            username: data.username,
+            password :data.password,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email
+          })
+        }
+      })
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -28,13 +37,16 @@ export const login = (credentials, setToken) =>
       }
     })
 
-export const logout = (token) =>
+export const logout = (token, removeUser) =>
     fetch(`${API}/logout`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       }
-    }).then((response) => token())
+    }).then((response) => {
+      token()
+      removeUser()
+    })
     .catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -43,23 +55,26 @@ export const logout = (token) =>
       }
     })
 
-export const profile = (token) =>
-    fetch(`${API}/profile`, {
+export const profile = (token, username) =>
+    fetch(`${API}/user/${username}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token
       }
     }).then(response => response.json())
 
-export const update_profile = (token, user) =>
-    fetch(`${API}/profile`, {
+export const update_profile = (token, user, setCurrentUser) =>
+    fetch(`${API}/user/${user.username}`, {
       method: "PUT",
       body: JSON.stringify(user),
       headers: {
         'content-type': 'application/json',
         Authorization: "Bearer " + token
       }
-    }).then(response => response.json())
+    }).then(response => {
+      setCurrentUser(user)
+      return response.json()
+    })
 
 export const get_trips = (token, username) =>
     fetch(`${API}/user/${username}/trips`, {
@@ -79,8 +94,8 @@ export const create_trip = (token, tripInfo) =>
       }
     }).then(response => response.json())
 
-export const get_trip = (token, tripId) =>
-    fetch(`${API}/trip/${tripId}`, {
+export const get_trip = (token, tripId, username) =>
+    fetch(`${API}/trip/${tripId}/${username}`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',

@@ -16,7 +16,7 @@ const Profile = (props) => {
   }, [props.currentUser])
 
   const onFinish = (user) =>
-      update_profile(props.token, user).then((msg) => {
+      update_profile(props.token, user, props.setCurrentUser).then((msg) => {
         message.info(msg.message)
       })
 

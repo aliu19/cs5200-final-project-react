@@ -3,7 +3,7 @@ import {logout} from "../../services/services";
 
 const Header = (props) => {
   const headerLogout = () => {
-    logout(props.token).then(r =>
+    logout(props.token, props.removeUser).then(r =>
         window.location = "/"
     )
   }

@@ -5,7 +5,7 @@ import {login} from "../../services/services";
 
 const Login = (props) => {
   const onFinish = (credentials) =>
-      login(credentials, props.setToken)
+    login(credentials, props.setToken, props.setCurrentUser)
 
   return(
       <Form name="normal_login"

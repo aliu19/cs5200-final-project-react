@@ -11,18 +11,17 @@ const Trips = (props) => {
     .then((trips) => {
       setTrips(trips)
     })
-  }, [props.currentUser.username])
+  }, [props.currentUser.first_name])
 
   return(
       <div>
-        <h1>{props.currentUser.username}'s Trips:</h1>
-        <Button href="/new-trip" shape="round" type="primary" size="large" style={{position: "absolute", right: 15, bottom: 15}}>Create Trip</Button>
+        <h1>{props.currentUser.first_name}'s Trips:</h1>
         <Space direction="vertical" style={{ display: 'flex' }}>
           {
-            trips.length ? trips.map(trip => <TripCard trip={trip}></TripCard>) : <></>
+            trips.length ? trips.map(trip => <TripCard trip={trip} key={trip.tripID}></TripCard>) : <></>
           }
         </Space>
-
+        <Button href="/new-trip" shape="round" type="primary" size="large" style={{position: "fixed", right: 15, bottom: 15}}>Create Trip</Button>
       </div>
   )
 }

@@ -12,15 +12,15 @@ const Trip = (props) => {
   const {tripId} = useParams()
 
   const getTrip = () =>
-      get_trip(props.token, tripId).then((tripInfo) => {
+      get_trip(props.token, tripId, props.currentUser.username).then((tripInfo) => {
         setCurrentTrip({
-          trip_name: tripInfo.trip_name,
+          trip_name: tripInfo.tripName,
           description: tripInfo.description,
           city: tripInfo.city,
           country: tripInfo.country,
-          start_date: moment(tripInfo.start_date),
-          end_date: moment(tripInfo.end_date),
-          trip_owner: tripInfo.trip_owner,
+          start_date: moment.utc(tripInfo.startDate),
+          end_date: moment.utc(tripInfo.endDate),
+          trip_owner: tripInfo.owner,
           attendees: tripInfo.attendees
         })
       })
@@ -42,7 +42,7 @@ const Trip = (props) => {
     let description = currentTrip.description !== trip_info.description ? trip_info.description : null
     let city = currentTrip.city !== trip_info.city ? trip_info.city : null
     let country = currentTrip.country !== trip_info.country ? trip_info.country : null
-    let start_date = currentTrip.start_date.format("YYYY-MM-DD") !== trip_info.start_date.format("YYYY-MM-DD") ? trip_info.city.format("YYYY-MM-DD") : null
+    let start_date = currentTrip.start_date.format("YYYY-MM-DD") !== trip_info.start_date.format("YYYY-MM-DD") ? trip_info.start_date.format("YYYY-MM-DD") : null
     let end_date = currentTrip.end_date.format("YYYY-MM-DD") !== trip_info.end_date.format("YYYY-MM-DD") ? trip_info.end_date.format("YYYY-MM-DD") : null
     let attendees = JSON.stringify(currentTrip.attendees) !== JSON.stringify(trip_info.attendees) ? trip_info.attendees : null
 
@@ -58,6 +58,7 @@ const Trip = (props) => {
 
     let changes = Object.fromEntries(Object.entries(original).filter(([_, v]) => v != null))
 
+    console.log(changes)
     if (Object.keys(changes).length !== 0) {
       update_trip(props.token, tripId, changes).then((msg) => {
         message.info(msg.message)

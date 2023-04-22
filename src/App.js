@@ -13,30 +13,17 @@ import NewTrip from "./components/trip/new-trip";
 import Trip from "./components/trip/trip";
 import ExpenseList from "./components/expenses/expense-list";
 import NewExpense from "./components/expenses/new-expense";
+import currentUser from "./services/currentUser";
 
 function App() {
   const { token, removeToken, setToken } = useToken();
-
-  const [currentUser, setCurrentUser] = useState({})
-
-  useEffect(() => {
-    profile(token).then((data) => {
-      data.access_token && setToken(data.access_token)
-      setCurrentUser({
-        username: data.username,
-        password :data.password,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email
-      })
-    })
-  }, [token])
+  const { getUser, removeUser, setCurrentUser } = currentUser();
 
   // no token
   const router0 = createBrowserRouter([
     {
       path: "/",
-      element: <Login  setToken={setToken}/>,
+      element: <Login  setToken={setToken} setCurrentUser={setCurrentUser}/>,
       errorElement: <ErrorPage/>,
     },
     {
@@ -50,27 +37,27 @@ function App() {
   const router1 = createBrowserRouter([
     {
       path: "/profile",
-      element: <Profile currentUser={currentUser} token={token}/>,
+      element: <Profile currentUser={getUser()} token={token} setCurrentUser={setCurrentUser}/>,
       errorElement: <ErrorPage/>,
     },
     {
       path: "/",
-      element: <Trips currentUser={currentUser} token={token}/>,
+      element: <Trips currentUser={getUser()} token={token}/>,
       errorElement: <ErrorPage/>
     },
     {
       path: "/new-trip",
-      element: <NewTrip currentUser={currentUser} token={token}/>,
+      element: <NewTrip currentUser={getUser()} token={token}/>,
       errorElement:  <ErrorPage/>
     },
     {
       path: "/trip/:tripId",
-      element: <Trip currentUser={currentUser} token={token}/>,
+      element: <Trip currentUser={getUser()} token={token}/>,
       errorElement:  <ErrorPage/>
     },
     {
       path: "/trip/:tripId/expenses",
-      element:<ExpenseList currentUser={currentUser} token={token}/>,
+      element:<ExpenseList currentUser={getUser()} token={token}/>,
       errorElement:  <ErrorPage/>
     },
     {
@@ -87,7 +74,7 @@ function App() {
               <RouterProvider router={router0}/>
               :
               <div className="container-fluid">
-                <Header token={removeToken}/>
+                <Header token={removeToken} removeUser={removeUser}/>
                 <RouterProvider router={router1}/>
               </div>
         }
